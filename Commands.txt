@@ -1,0 +1,4 @@
+Helpfull commands 
+ - npm init -y
+ - npm i @prisma/client bcrypt body-parser cookie-parser dotenv express helmet jsonwebtoken pangea-node-sdk validator
+- npm i -D jest nodemon prisma
