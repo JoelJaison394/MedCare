@@ -3,9 +3,7 @@ import logger from './logger.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
 const server = startServer();
-
 
 process.on('unhandledRejection', (error) => {
   logger.error('Unhandled Promise Rejection:', error);
