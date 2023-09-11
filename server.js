@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import { vault , audit } from './pangeaConfig.js';
 dotenv.config();
 
 const app = express();
@@ -18,20 +19,25 @@ app.get('/', (req, res) => {
 });
 
 export const startServer = () => {
-      const server = app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+  if (vault && audit) {
+    const server = app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+
+    process.on('SIGTERM', () => {
+      console.log('Received SIGTERM. Closing server...');
+      server.close(() => {
+        console.log('Server closed.');
+        process.exit(0);
       });
-  
-      process.on('SIGTERM', () => {
-        console.log('Received SIGTERM. Closing server...');
-        server.close(() => {
-          console.log('Server closed.');
-          process.exit(0);
-        });
-      });
-  
-      return server;
-  };
+    });
+
+    return server;
+  } else {
+    console.error('Pangea is not connected or operational.');
+    process.exit(1);
+  }
+};
   
   
   
