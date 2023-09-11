@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "MedCare is a comprehensive healthcare management platform designed to revolutionize the way healthcare services are accessed and managed. Our mission is to empower patients, healthcare providers, and administrators with innovative tools and features for a seamless healthcare experience with advanced security features powered by the pangea apis and sdk .",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -36,7 +38,9 @@
   },
   "devDependencies": {
     "jest": "^29.6.4",
+    "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
-    "prisma": "^5.2.0"
+    "prisma": "^5.2.0",
+    "winston": "^3.10.0"
   }
 }
