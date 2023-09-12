@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { vault , audit } from './pangeaConfig.js';
+import cors from 'cors'
+
 dotenv.config();
 
 
@@ -12,10 +14,11 @@ import userRoute from './routes/userRoutes.js'
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('Welcome to Medcare API');
