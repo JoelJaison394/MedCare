@@ -20,7 +20,6 @@ const userController = {
         password,
         address,
       } = req.body;
-
       // Validate required fields
       if (!email || !firstName || !lastName || !phoneNumber || !password) {
         return res.status(400).json({
@@ -172,7 +171,6 @@ const userController = {
   getUserDetailsbyPangeaId: async (req, res) => {
     try {
       const pangeaId = req.params.pangeaId;
-
       const user = await prisma.user.findUnique({
         where: { pangeaid: pangeaId },
       });
