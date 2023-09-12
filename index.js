@@ -1,7 +1,6 @@
 import { startServer } from './server.js';
 import logger from './logger.js'; 
-import dotenv from 'dotenv';
-dotenv.config();
+
 
 const server = startServer();
 

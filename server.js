@@ -6,6 +6,9 @@ import dotenv from 'dotenv';
 import { vault , audit } from './pangeaConfig.js';
 dotenv.config();
 
+
+import userRoute from './routes/userRoutes.js'
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -17,6 +20,9 @@ app.use(helmet());
 app.get('/', (req, res) => {
   res.send('Welcome to Medcare API');
 });
+
+const baseRoute = "/api";
+app.use(baseRoute, userRoute);
 
 export const startServer = () => {
   if (vault && audit ) {
