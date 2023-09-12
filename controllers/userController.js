@@ -2,7 +2,7 @@ import { vault, audit, PangeaErrors } from "../pangeaConfig.js";
 import { prisma } from "../prismaConfig.js";
 import logger from "../logger.js";
 import dotenv from "dotenv";
-import jwt   from'jsonwebtoken'
+import jwt from "jsonwebtoken";
 dotenv.config();
 
 const userController = {
@@ -60,7 +60,6 @@ const userController = {
         email: email,
         userID: newUser.id,
       };
-      console.log(payload);
       const jwtResponse = await vault.jwtSign(
         process.env.PANGEA_USERAUTH_JWTSECRECT,
         JSON.stringify(payload)
@@ -126,48 +125,86 @@ const userController = {
   getUserDetails: async (req, res) => {
     try {
       const token = req.cookies.jwtToken;
-  
+
       if (!token) {
         return res.status(401).json({ message: "Token not provided" });
       }
-  
-      const checkTokenResponse = await vault.jwtVerify(token, process.env.PANGEA_USERAUTH_JWTSECRECT);
-  
+
+      const checkTokenResponse = await vault.jwtVerify(
+        token,
+        process.env.PANGEA_USERAUTH_JWTSECRECT
+      );
+
       if (!checkTokenResponse.result.valid_signature) {
         return res.status(401).json({ message: "Invalid token signature" });
       }
-  
+
       const Jwk = await vault.jwkGet(process.env.PANGEA_USERAUTH_JWTSECRECT);
-  
+
       const publicKey = {
         alg: Jwk.result.keys[0].alg,
         crv: Jwk.result.keys[0].crv,
         kid: Jwk.result.keys[0].kid,
         x: Jwk.result.keys[0].x,
-        y: Jwk.result.keys[0].y
+        y: Jwk.result.keys[0].y,
       };
-  
+
       const decodedToken = jwt.decode(token, publicKey);
-  
+
       const userId = decodedToken.userID;
       const userEmail = decodedToken.email;
-  
+
       const user = await prisma.user.findUnique({
         where: { id: userId },
       });
-  
+
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-  
+
       res.status(200).json({ user });
     } catch (error) {
       // Log and handle errors
       logger.error("Error while fetching user details:", error);
       res.status(500).json({ message: "Internal Server Error" });
     }
-  }
-  
+  },
+  getUserDetailsbyPangeaId: async (req, res) => {
+    try {
+      const pangeaId = req.params.pangeaId;
+
+      const user = await prisma.user.findUnique({
+        where: { pangeaid: pangeaId },
+      });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      const payload = {
+        sub: user.pangeaid,
+        email: user.email,
+        userID: user.id,
+      };
+      const jwtResponse = await vault.jwtSign(
+        process.env.PANGEA_USERAUTH_JWTSECRECT,
+        JSON.stringify(payload)
+      );
+      const signedJWT = jwtResponse.result.jws;
+
+      res
+        .cookie("jwtToken", signedJWT, {
+          secure: true,
+          httpOnly: true,
+          maxAge: 3600000,
+        })
+        .status(200)
+        .json({ user , signedJWT });
+    } catch (error) {
+      logger.error("Error while fetching user details by PangeaID:", error);
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  },
 };
 
 export default userController;
