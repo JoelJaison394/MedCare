@@ -18,7 +18,6 @@ model User {
   profileImg     String
   dateOfBirth    DateTime?
   bio            String?
-  medicalRecords MedicalRecord[]
   auditlog       AuditLog[]
   address        Address         @relation(fields: [addressId], references: [id])
   addressId      String          @map("_addressId") @db.ObjectId
@@ -27,23 +26,7 @@ model User {
   notifications  Notification[]  
 }
 
-model MedicalRecord {
-  id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  title            String
-  description      String
-  pdfFile          String
-  hospitalName     String
-  doctorName       String
-  doctorLicense    String
-  hospitalLicense  String
-  uploadedDate     DateTime
-  consultationDate DateTime
 
-  uploadedBy   User     @relation(fields: [uploadedById], references: [id])
-  uploadedById String   @db.ObjectId
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-}
 
 model Address {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
