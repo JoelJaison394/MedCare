@@ -100,7 +100,7 @@ const userController = {
 
       logger.info(`User registered: ${email}`);
 
-      // Set the JWT token
+
       res
         .cookie("jwtToken", signedJWT, {
           secure: true,
@@ -152,7 +152,6 @@ const userController = {
       const decodedToken = jwt.decode(token, publicKey);
 
       const userId = decodedToken.userID;
-      const userEmail = decodedToken.email;
 
       const user = await prisma.user.findUnique({
         where: { id: userId },

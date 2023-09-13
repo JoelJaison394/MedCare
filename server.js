@@ -3,16 +3,18 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
+import multer from 'multer';
 import { vault , audit } from './pangeaConfig.js';
 dotenv.config();
 
 
 import userRoute from './routes/userRoutes.js'
+import fileuploadRoute from './routes/fileuploadRoute.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(helmet());
@@ -23,6 +25,7 @@ app.get('/', (req, res) => {
 
 const baseRoute = "/api";
 app.use(baseRoute, userRoute);
+app.use(baseRoute, fileuploadRoute);
 
 export const startServer = () => {
   if (vault && audit ) {

@@ -4,3 +4,6 @@ Helpfull commands
 - npm i -D jest nodemon prisma morgan winston
 - npm run dev 
 - npx prisma init
+- npx primsa format
+- npx prisma generate
+- npm run test
