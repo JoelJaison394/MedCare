@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import multer from 'multer';
 import { vault , audit } from './pangeaConfig.js';
+import cors from 'cors'
+
 dotenv.config();
 
 
@@ -16,8 +18,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('Welcome to Medcare API');
