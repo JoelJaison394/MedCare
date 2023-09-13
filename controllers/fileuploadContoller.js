@@ -84,6 +84,7 @@ const fileuploadController = {
         const decodedToken = jwt.decode(token, publicKey);
 
         const userId = decodedToken.userID;
+        const emailId = decodedToken.email;
 
         const pdfFileData = req.file.buffer;
         console.log(pdfFileData);
@@ -109,42 +110,43 @@ const fileuploadController = {
         });
 
         await medicalRecord.save();
+        await prisma.notification.create({
+          data: {
+            content: "A new medical record has been added",
+            userId: patientId, 
+            senderId: userId, 
+          },
+        });
 
-        // const patient = await prisma.user.findUnique({
-        //   where: { id: patientId },
-        // });
+        const auditData = {
+          action: "Medical Record added",
+          actor: `${hospitalName} `,
+          target: `${emailId}`,
+          status: "success",
+          message: `New medical record has been added by - ${doctorName}`,
+          source: "web",
+        };
 
-        // console.log("before adding medical records", patient);
-
-        // if (!patient) {
-        //   return res.status(404).json({ message: "Patient not found" });
-        // }
-
-        // if (!patient.medicalRecords || patient.medicalRecords === null) {
-        //    console.log("inside")
-        //   patient.medicalRecords = [{ id: medicalRecord.id }];
-        // } else {
-        //   console.log("outside")
-        //   patient.medicalRecords.push({ id: medicalRecord.id });
-        // }
-
-        // console.log("returned");
-
-        // await prisma.user.update({
-        //   where: { id: patientId },
-        //   data: { medicalRecords: { set: patient.medicalRecords } },
-        // });
-        // console.log("updated");
-        // const patient1 = await prisma.user.findUnique({
-        //   where: { id: patientId },
-        // });
-
-        // console.log("after adding medical records", patient1);
+        await prisma.auditLog.create({
+          data: {
+            action: "Medical record updation",
+            actor: `${hospitalName}`,
+            target: emailId,
+            status: "success",
+            message: `New medical record has been added as refrence by  - ${doctorName}`,
+            source: "web",
+            userId: patientId,
+          },
+        });
         mongoose.connection.close();
+        // const user = await prisma.user.findUnique({
+        //   where: { id: patientId },
+        //   include: { notifications: true }, // Include notifications in the result
+        // });
 
         res
           .status(201)
-          .json({ message: "Medical record uploaded successfully" });
+          .json({ message: "Medical record uploaded successfully" , user });
       });
     } catch (error) {
       console.log(error);
@@ -167,8 +169,8 @@ const fileuploadController = {
         return res.status(404).json({ message: "PDF file not found" });
       }
       res.set({
-        "Content-Type": "application/pdf", 
-        "Content-Disposition": `inline; filename="${pdfFile.fileName}"`, 
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `inline; filename="${pdfFile.fileName}"`,
       });
       res.send(pdfFile.fileData);
     } catch (error) {
@@ -176,27 +178,29 @@ const fileuploadController = {
       res.status(500).json({ message: "Internal Server Error" });
     }
   },
-  getRecords: async (req , res) => {
+  getRecords: async (req, res) => {
     try {
-      const userId = req.params.id; 
+      const userId = req.params.id;
       await mongoose.connect(process.env.DATABASE_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });
 
       const medicalRecords = await MedicalRecord.find({ patientId: userId });
-      
+
       if (!medicalRecords) {
-        return res.status(404).json({ message: "No medical records found for this user" });
+        return res
+          .status(404)
+          .json({ message: "No medical records found for this user" });
       }
-  
+
       // You can choose to send the list of medical records as a response
       res.status(200).json(medicalRecords);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
-  }
+  },
 };
 
 export default fileuploadController;
