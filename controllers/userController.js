@@ -190,7 +190,6 @@ const userController = {
         .status(200)
         .json({ user , signedJWT });
     } catch (error) {
-      logger.error("Error while fetching user details by PangeaID:", error);
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
     }

@@ -149,7 +149,6 @@ const fileuploadController = {
       });
     } catch (error) {
       console.log(error);
-      logger.error("Error while uploading medical record:", error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   },
@@ -197,7 +196,6 @@ const fileuploadController = {
       res.status(200).json(medicalRecords);
     } catch (error) {
       console.error(error);
-      logger.error("Error while retreving medical record:", error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   },

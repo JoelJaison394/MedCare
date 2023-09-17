@@ -34,7 +34,6 @@ const auditController = {
       res.status(200).json({ auditLogs });
     } catch (error) {
       console.error(error);
-      logger.error("Error while retreving audit log:", error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   },
