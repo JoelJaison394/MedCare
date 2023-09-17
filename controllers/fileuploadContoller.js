@@ -1,4 +1,4 @@
-import { vault, audit, PangeaErrors } from "../pangeaConfig.js";
+import { vault } from "../pangeaConfig.js";
 import { prisma } from "../prismaConfig.js";
 import logger from "../logger.js";
 import jwt from "jsonwebtoken";
@@ -198,6 +198,7 @@ const fileuploadController = {
       res.status(200).json(medicalRecords);
     } catch (error) {
       console.error(error);
+      logger.error("Error while retreving medical record:", error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   },
