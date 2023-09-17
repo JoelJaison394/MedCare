@@ -1,6 +1,5 @@
 import { vault, audit, PangeaErrors } from "../pangeaConfig.js";
 import { prisma } from "../prismaConfig.js";
-import logger from "../logger.js";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 dotenv.config();

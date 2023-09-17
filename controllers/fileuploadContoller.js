@@ -1,6 +1,5 @@
 import { vault } from "../pangeaConfig.js";
 import { prisma } from "../prismaConfig.js";
-import logger from "../logger.js";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import multer from "multer";

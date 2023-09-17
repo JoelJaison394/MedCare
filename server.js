@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import multer from 'multer';
 import { vault , audit } from './pangeaConfig.js';
 import cors from 'cors'
 
