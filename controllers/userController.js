@@ -96,8 +96,6 @@ const userController = {
         token: signedJWT,
       };
 
-      logger.info(`User registered: ${email}`);
-
 
       res
         .cookie("jwtToken", signedJWT, {
@@ -108,8 +106,6 @@ const userController = {
         .status(201)
         .json(responsePayload);
     } catch (error) {
-      // Log errors
-      logger.error("Error during registration:", error);
 
       if (error instanceof PangeaErrors.APIError) {
         console.log(error.summary, error.pangeaResponse);
@@ -161,8 +157,6 @@ const userController = {
 
       res.status(200).json({ user });
     } catch (error) {
-      // Log and handle errors
-      logger.error("Error while fetching user details:", error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   },
