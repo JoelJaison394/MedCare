@@ -7,7 +7,7 @@ dotenv.config();
 const auditController = {
   getauditDetails: async (req, res) => {
     try {
-      const token = req.cookies.jwtToken;
+      const token = req.body.jwtToken;
       if (!token) {
         return res.status(401).json({ message: "Token not provided" });
       }

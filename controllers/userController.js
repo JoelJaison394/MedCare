@@ -183,7 +183,7 @@ const userController = {
 
       res
         .cookie("jwtToken", signedJWT, {
-          secure: true,
+          // secure: true,
           httpOnly: true,
           maxAge: 3600000,
         })
