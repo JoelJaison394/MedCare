@@ -11,6 +11,7 @@ dotenv.config();
 
 import userRoute from './routes/userRoutes.js'
 import fileuploadRoute from './routes/fileuploadRoute.js'
+import featuresRoute from './routes/featuresRoute.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.get('/', (req, res) => {
 const baseRoute = "/api";
 app.use(baseRoute, userRoute);
 app.use(baseRoute, fileuploadRoute);
+app.use(baseRoute, featuresRoute);
 
 export const startServer = () => {
   if (vault && audit ) {
