@@ -101,6 +101,34 @@ To run MedCare locally, follow these steps:
     
 
 ----------
+## angea Integration
+
+Pangea, a robust security platform, plays a crucial role in ensuring the security and integrity of MedCare's healthcare data. Here's where Pangea is integrated into the project:
+
+### User Authentication
+
+-   **File:** `userController.js`
+-   **Usage:** Pangea is integrated into the user authentication process to provide advanced security features during user registration and login. It ensures that user data remains confidential and secure.
+
+### Medical Record Storage
+
+-   **Files:** `fileuploadController.js`
+-   **Usage:** Pangea secures the storage of medical records. It ensures that all medical documents uploaded by users are stored in a highly secure and tamper-proof environment. This guarantees the integrity and privacy of medical records.
+
+### Audit Logging
+
+-   **File:** `auditController.js`
+-   **Usage:** Pangea also plays a role in maintaining a detailed audit trail for user actions and system events. It provides robust logging capabilities, allowing administrators to monitor system activities effectively.
+
+### Environment Variables
+
+Pangea-related environment variables must be set in the `.env` file to enable seamless integration:
+
+-   `PANGEA_DOMAIN`: The Pangea domain where the services are hosted.
+-   `PANGEA_VAULTTOKEN`: Your Pangea Vault Token for secure access.
+-   `PANGEA_VAULTCONFIGID`: Pangea Vault Configuration ID for configuration management.
+-   `PANGEA_AUDITTOKEN`: Your Pangea Audit Token for audit logging.
+-   `PANGEA_AUDITCONFIGID`: Pangea Audit Configuration ID for configuring audit logs.
 
 ## Frontend Repository
 
