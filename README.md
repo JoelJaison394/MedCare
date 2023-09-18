@@ -101,7 +101,7 @@ To run MedCare locally, follow these steps:
     
 
 ----------
-## angea Integration
+## Pangea Integration
 
 Pangea, a robust security platform, plays a crucial role in ensuring the security and integrity of MedCare's healthcare data. Here's where Pangea is integrated into the project:
 
