@@ -91,11 +91,9 @@ To run MedCare locally, follow these steps:
     PANGEA_USERAUTH_JWTSECRECT="your_jwt_secret"
     DATABASE_URL="mongodb+srv://your_username:your_password@cluster0.jji2kcp.mongodb.net/medcare?retryWrites=true&w=majority"` 
     
-    Replace `"your_pangea_vault_token"`, `"your_pangea_vault_config_id"`, `"your_pangea_audit_token"`, `"your_pangea_audit_config_id"`, `"your_jwt_secret"`, `"your_username"`, and `"your_password"` with your actual values.
+
     
 5.  Start the development server:
-    
-    shellCopy code
     
     `npm run dev` 
     
